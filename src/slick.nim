@@ -7,13 +7,14 @@ const WH_KEYBOARD_LL = 13;
 let layout = GetKeyboardLayout( 0 )
 var message : LPMSG
 
-
-proc callback( nCode : int32, wParam : WPARAM , lParam : LPARAM ) : LRESULT {. stdcall .}=
-  
+proc handle( nCode : var int32, wParam : var WPARAM , lParam : var LPARAM ) : LRESULT {. stdcall .}=
   if (nCode >= 0 and wParam == WM_KEYDOWN):
     let value = cast[ptr int32](lParam)[]
     echo char MapVirtualKeyEx( value, MAPVK_VK_TO_CHAR , layout)
 
+proc callback( nCode : int32, wParam : WPARAM , lParam : LPARAM ) : LRESULT {. stdcall .}=
+  
+  handle( nCode, wParam, lParam)
   return CallNextHookEx( 0, nCode , wParam , lParam )
 
 

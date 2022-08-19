@@ -12,3 +12,9 @@ bin           = @["slick"]
 
 requires "nim >= 1.6.6"
 requires "winim >= 3.8.1"
+
+task buildFast, "compile ":
+    exec "nimble build -d:danger -d:strip --opt:speed --panics:on --passc:-flto --passc=-march=native --gc:arc "
+
+task buildFlexible, "allows reflectively loading":
+    exec "nimble build --opt:size --passL:-Wl,--dynamicbase"
